@@ -14,5 +14,5 @@ User
  /dreams -> POST 
  /dreams -> GET 
 
-# Note -> Create register and login first and use token for validation of other apis
+# Note -> Create register and login first and use token for authorization of other apis
 
