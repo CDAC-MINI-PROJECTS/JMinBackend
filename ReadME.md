@@ -1,3 +1,4 @@
+# RUN Spring Boot Project and Try Below API 
 Routes 
 Base Route:  http://localhost:8080/api
 
@@ -13,4 +14,5 @@ User
  /dreams -> POST 
  /dreams -> GET 
 
+# Note -> Create register and login first and use token for validation of other apis
 
