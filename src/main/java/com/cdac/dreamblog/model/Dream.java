@@ -6,6 +6,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 // TODO: Add Validation annotations for fields for each entity
 
 @Data
@@ -21,7 +24,12 @@ public class Dream {
     private String content;
     private String tags; // Comma-separated
     private String visibility; // "public" or "private"
+     @Column(nullable = false, updatable = false)
+    @CreatedDate
     private LocalDateTime createdAt;
+
+    @Column(nullable = false)
+    @LastModifiedDate
     private LocalDateTime lastUpdated;
 
     @ManyToOne
