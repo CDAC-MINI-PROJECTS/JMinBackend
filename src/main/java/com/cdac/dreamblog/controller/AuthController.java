@@ -2,6 +2,7 @@ package com.cdac.dreamblog.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.naming.AuthenticationException;
 
@@ -12,7 +13,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +37,7 @@ public class AuthController {
   @PostMapping("/register")
   public String register(@RequestBody User user) {
     System.out.println("Registering user: " + user);
-    user.setPasswordHash(passwordEncoder.encode(user.getPasswordHash()));
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     userRepo.save(user);
     return "User registered";
   }
@@ -42,10 +45,14 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<?> login(@RequestBody User user) {
     try {
+
+      System.out.println("Logging in user: " + user.getUsername() + user.getPassword());
         // Attempt to authenticate the user
         Authentication authentication = authManager.authenticate(
-            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPasswordHash())
+            new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword())
         );
+
+        System.out.println("Authentication successful for user: " + authentication);
 
         // Generate JWT token if authentication is successful
         String token = jwtUtil.generateToken(user.getUsername());
@@ -61,13 +68,17 @@ public class AuthController {
                 .body("Invalid username or password");
     } catch (org.springframework.security.core.AuthenticationException ex) {
         // Any other authentication-related exception
+
+        System.out.println("Authentication failed: " + ex);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body("Authentication failed");
+                .body(ex.getMessage());
     } catch (Exception ex) {
         // Generic exception handler
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("An error occurred during login");
     }
-}
+  }
+
+  
 
 }

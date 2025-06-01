@@ -34,8 +34,8 @@ public class User {
     @NotBlank(message = "Email is mandatory")
     private String email;
 
-    private String passwordHash;
-    private String fist_name;
+    private String password;
+    private String first_name;
     private String last_name;
     private Integer age;
 

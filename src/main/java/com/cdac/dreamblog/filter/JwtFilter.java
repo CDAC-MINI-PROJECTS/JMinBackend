@@ -29,10 +29,12 @@ public class JwtFilter extends OncePerRequestFilter {
    String path = req.getRequestURI();
     // Skip JWT check for auth endpoints
     if (path.startsWith("/api/auth")) {
+      System.out.println("Skipping JWT filter for path: " + path);
         chain.doFilter(req, res);
         return;
     }
     String header = req.getHeader("Authorization");
+
     if (header != null && header.startsWith("Bearer ")) {
       String token = header.substring(7);
       String username = jwtUtil.extractUsername(token);
