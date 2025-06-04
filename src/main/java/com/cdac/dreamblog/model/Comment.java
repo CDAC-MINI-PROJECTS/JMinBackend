@@ -16,12 +16,14 @@ public class Comment {
     private String commentText;
     private LocalDateTime createdAt;
 
+    private String visibility; // "public" or "private"
+
     @ManyToOne
-    @JoinColumn(name = "dream_id")
+    @JoinColumn(name = "dreamId")
     private Dream dream;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "userId")
     private User user;
 
 }

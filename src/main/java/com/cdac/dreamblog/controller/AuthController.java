@@ -13,17 +13,18 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.cdac.dreamblog.dto.UserDto;
 import com.cdac.dreamblog.model.User;
 import com.cdac.dreamblog.repository.UserRepository;
 import com.cdac.dreamblog.service.JwtUtil;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -35,10 +36,16 @@ public class AuthController {
   @Autowired JwtUtil jwtUtil;
 
   @PostMapping("/register")
-  public String register(@RequestBody User user) {
-    System.out.println("Registering user: " + user);
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
-    userRepo.save(user);
+  public String register(@Valid @RequestBody UserDto userDto) {
+
+    System.out.println("Registering user: " + userDto.getUsername() + " " + userDto.getEmail());
+    // User user = new User();
+    // user.setUsername(userDto.getUsername());
+    // user.setEmail(userDto.getEmail());
+    // user.setFirstName(userDto.getFirstName());
+    // user.setPassword(passwordEncoder.encode(user.getPassword()));
+       
+    // userRepo.save(user);
     return "User registered";
   }
 

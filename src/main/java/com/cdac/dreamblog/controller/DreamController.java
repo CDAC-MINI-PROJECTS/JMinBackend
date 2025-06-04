@@ -2,7 +2,9 @@ package com.cdac.dreamblog.controller;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,4 +29,10 @@ public class DreamController {
     public List<Dream> getAllDreams() {
         return dreamRepository.findAll();
     }
+
+    // @GetMapping("/{id}")
+    // public ResponseEntity<List<Dream>> getAllDreamsByUsername(@PathVariable Long id) {
+    //     List<Dream> dreams = dreamRepository.findByuserIDreams(id);
+    //     return ResponseEntity.ok(dreams);
+    // }
 }

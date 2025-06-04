@@ -1,4 +1,4 @@
-package com.cdac.dreamblog.filter;
+package com.cdac.dreamblog.config;
 
 import java.io.IOException;
 

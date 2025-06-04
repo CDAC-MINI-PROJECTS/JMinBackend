@@ -1,11 +1,15 @@
 package com.cdac.dreamblog.model;
 
-import jakarta.persistence.*;
-import lombok.Data;
-
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.Data;
 
 @Data
 @Entity
@@ -14,12 +18,12 @@ public class Follow {
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "follower_id")
+    @JoinColumn(name = "followerId")
     private User follower;
 
     @Id
     @ManyToOne
-    @JoinColumn(name = "followed_id")
+    @JoinColumn(name = "followedId")
     private User followed;
 
     private LocalDateTime followedAt;

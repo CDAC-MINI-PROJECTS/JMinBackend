@@ -1,9 +1,6 @@
 package com.cdac.dreamblog.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-import jakarta.validation.constraints.Email;
 import java.time.LocalDateTime;
 import lombok.Data;
 
@@ -25,26 +22,54 @@ public class User {
     private Long userId;
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "Username is mandatory")
-    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters")
     private String username;
    
-    @Email(message = "Email should be valid")
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "Email is mandatory")
     private String email;
 
+    // Password should be stored as a hash, not plain text
     private String password;
-    private String first_name;
-    private String last_name;
-    private Integer age;
 
-    @Size(max = 500, message = "Bio must be less than 500 characters")
+    //Personal Information
+    private String firstName;
+    private String lastName;
+    private LocalDateTime dob;
+    private String profile;
+    private String cover;
+    private String gender;
+    private String maritalStatus;
+    private String bloodGroup;
+
+    // Address Information
+    private String country;
+    private String state;
+    private String city;
+    private String addressLine1;
+    private String addressLine2;
+    private String zipCode;
+
+    //Contact Information
+    private String phoneNumber;
+    private String secondaryEmail;
+    private Boolean isEmailVerified;
+
     private String bio;
-    private String profilePictureUrl;
+    private String language; // URL to the user's profile picture
     
+    // Account details
     private String role; // "user" or "admin"
-
-    private LocalDateTime createdAt;
+    private Boolean isActive;
     private LocalDateTime lastLogin;
+
+    // Social media URLs
+    private String instagram_url;
+    private String twitter_url;
+    private String facebook_url;
+    private String linkedin_url;
+
+    // Timestamps for auditing
+    private LocalDateTime createdAt;
+    private Long createdBy;
+    private LocalDateTime updatedAt;
+    private Long updatedBy;
 }
