@@ -3,6 +3,9 @@ package com.cdac.dreamblog.controller;
 
 import com.cdac.dreamblog.dto.follow.FollowRequestDto;
 import com.cdac.dreamblog.dto.follow.FollowResponseDto; // Still useful for consistent output
+import com.cdac.dreamblog.dto.follow.FollowerResponseDto;
+import com.cdac.dreamblog.dto.follow.FollowingResponseDto;
+import com.cdac.dreamblog.dto.follow.UserMinimalDto;
 import com.cdac.dreamblog.dto.UserDto; // Still useful for consistent output
 import com.cdac.dreamblog.model.Follow;
 import com.cdac.dreamblog.model.User;
@@ -38,13 +41,12 @@ public class FollowController {
     // In a real application, you'd likely still have a Mapper or utility class for DTO conversion.
     // For this example, we'll implement simple conversions directly.
 
-    private UserDto toUserMinimalDto(User user) {
+    private UserMinimalDto toUserMinimalDto(User user) {
         if (user == null) return null;
-        UserDto dto = new UserDto();
+        UserMinimalDto dto = new UserMinimalDto();
         dto.setUserId(user.getUserId());
         dto.setUsername(user.getUsername());
         dto.setFirstName(user.getFirstName());
-        dto.setProfile(user.getProfile());
         return dto;
     }
 
@@ -52,7 +54,27 @@ public class FollowController {
         if (follow == null) return null;
         FollowResponseDto dto = new FollowResponseDto();
         dto.setFollower(toUserMinimalDto(follow.getFollower()));
+        dto.setFollowed(toUserMinimalDto(follow.getFollower()));
+        dto.setFollowedAt(follow.getFollowedAt());
+        return dto;
+    }
+
+    private FollowerResponseDto toFollowerResponseDto(Follow follow) {
+        if (follow == null) return null;
+        FollowerResponseDto dto = new FollowerResponseDto();
+        dto.setFollower(toUserMinimalDto(follow.getFollower()));
+        dto.setUserId(follow.getFollowed().getUserId());
+        dto.setUsername(follow.getFollowed().getUsername());
+        dto.setFollowedAt(follow.getFollowedAt());
+        return dto;
+    }
+
+    private FollowingResponseDto toFollowingResponseDto(Follow follow) {
+        if (follow == null) return null;
+        FollowingResponseDto dto = new FollowingResponseDto();
         dto.setFollowed(toUserMinimalDto(follow.getFollowed()));
+        dto.setUserId(follow.getFollower().getUserId());
+        dto.setUsername(follow.getFollower().getUsername());
         dto.setFollowedAt(follow.getFollowedAt());
         return dto;
     }
@@ -149,9 +171,10 @@ public class FollowController {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
             List<Follow> followingRelations = followRepository.findByFollower(user);
-            List<FollowResponseDto> followingDtos = followingRelations.stream()
-                .map(this::toFollowResponseDto) // Use the local conversion method
+            List<FollowingResponseDto> followingDtos = followingRelations.stream()
+                .map(this::toFollowingResponseDto) // Use the local conversion method
                 .collect(Collectors.toList());
+            
             return ResponseEntity.ok(followingDtos); // 200 OK
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -173,8 +196,8 @@ public class FollowController {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
             List<Follow> followerRelations = followRepository.findByFollowed(user);
-            List<FollowResponseDto> followerDtos = followerRelations.stream()
-                .map(this::toFollowResponseDto) // Use the local conversion method
+            List<FollowerResponseDto> followerDtos = followerRelations.stream()
+                .map(this::toFollowerResponseDto) // Use the local conversion method
                 .collect(Collectors.toList());
             return ResponseEntity.ok(followerDtos); // 200 OK
         } catch (EntityNotFoundException e) {

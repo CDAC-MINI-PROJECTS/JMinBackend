@@ -44,7 +44,7 @@ public class AuthController {
     user.setEmail(userDto.getEmail());
     user.setFirstName(userDto.getFirstName());
     user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-       
+    user.setRole(userDto.getRole());
     userRepo.save(user);
     return "User registered";
   }
