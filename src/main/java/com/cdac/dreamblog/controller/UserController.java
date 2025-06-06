@@ -29,12 +29,13 @@ public class UserController {
     public ResponseEntity<String> createUser(@Valid @RequestBody UserDto userDto) {
         // Convert UserDto to User entity
         // User user = new User();
-        //  if (userDto.getUsername().equals("admin")) {
-        //     throw new ResourceNotFoundException("User 'admin' already exists.");
+        // if (userDto.getUsername().equals("admin")) {
+        // throw new ResourceNotFoundException("User 'admin' already exists.");
         // }
         // user.setUsername(userDto.getUsername());
         // user.setEmail(userDto.getEmail());
-        // user.setPassword(userDto.getPassword()); // Ensure password is hashed in service layer
+        // user.setPassword(userDto.getPassword()); // Ensure password is hashed in
+        // service layer
         // user.setProfile(userDto.getProfile());
         // user.setCover(userDto.getCover());
         // user.setBio(userDto.getBio());
@@ -76,11 +77,20 @@ public class UserController {
         return userRepository.findByUsername(username)
                 .map(user -> {
                     UserDto dto = new UserDto();
+                    dto.setUserId(user.getUserId());
                     dto.setUsername(user.getUsername());
                     dto.setEmail(user.getEmail());
                     dto.setProfile(user.getProfile());
                     dto.setCover(user.getCover());
                     dto.setBio(user.getBio());
+                    dto.setFirstName(user.getFirstName());
+                    dto.setLastName(user.getLastName());
+                    dto.setCountry(user.getCountry());
+                    dto.setCity(user.getCity());
+                    dto.setState(user.getState());
+                    dto.setZipCode(user.getZipCode());
+               
+            
                     return ResponseEntity.ok(dto);
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -97,7 +107,26 @@ public class UserController {
         }
 
         return userRepository.findByUsernameOrEmail(username, username)
-                .<ResponseEntity<?>>map(user -> ResponseEntity.ok().body(user))
+                .<ResponseEntity<?>>map(user -> {
+                    UserDto dto = new UserDto();
+                    dto.setUserId(user.getUserId());
+                    dto.setUsername(user.getUsername());
+                    dto.setEmail(user.getEmail());
+                    dto.setProfile(user.getProfile());
+                    dto.setCover(user.getCover());
+                    dto.setBio(user.getBio());
+                    dto.setFirstName(user.getFirstName());
+                    dto.setLastName(user.getLastName());
+                    dto.setCountry(user.getCountry());
+                    dto.setCity(user.getCity());
+                    dto.setState(user.getState());
+                    dto.setZipCode(user.getZipCode());
+                    dto.setInstagram_url(user.getInstagram_url());
+                    dto.setTwitter_url(user.getTwitter_url());
+                    dto.setFacebook_url(user.getFacebook_url());
+                    dto.setLinkedin_url(user.getLinkedin_url());
+                    return ResponseEntity.ok(dto);
+                })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"));
     }
 
@@ -113,35 +142,21 @@ public class UserController {
                         existingUser.setProfile(userData.getProfile());
                     if (userData.getCover() != null)
                         existingUser.setCover(userData.getCover());
-                    if (userData.getBio().isBlank() || userData.getBio() == null)
-                        existingUser.setBio(userData.getBio());
-                    if (userData.getFirstName() != null)
-                        existingUser.setFirstName(userData.getFirstName());
-                    if (userData.getLastName() != null)
-                        existingUser.setLastName(userData.getLastName());
-                    if (userData.getCountry() != null)
-                        existingUser.setCountry(userData.getCountry());
-                    if (userData.getCity() != null)
-                        existingUser.setCity(userData.getCity());
-                    if (userData.getState() != null)
-                        existingUser.setState(userData.getState());
-                    if (userData.getZipCode() != null)
-                        existingUser.setZipCode(userData.getZipCode());
-                    if (userData.getDob() != null)
-                        existingUser.setDob(userData.getDob());
-                    if (userData.getEmail() != null)
-                        existingUser.setEmail(userData.getEmail());
+                    existingUser.setBio(userData.getBio());
+                    existingUser.setFirstName(userData.getFirstName());
+                    existingUser.setLastName(userData.getLastName());
+                    existingUser.setCountry(userData.getCountry());
+                    existingUser.setCity(userData.getCity());
+                    existingUser.setState(userData.getState());
+                    existingUser.setZipCode(userData.getZipCode());
+                    existingUser.setDob(userData.getDob());
+                    existingUser.setEmail(userData.getEmail());
                     if (userData.getUsername() != null)
                         existingUser.setUsername(userData.getUsername());
-
-                    if (userData.getInstagram_url() != null)
-                        existingUser.setInstagram_url(userData.getInstagram_url());
-                    if (userData.getTwitter_url() != null)
-                        existingUser.setTwitter_url(userData.getTwitter_url());
-                    if (userData.getFacebook_url() != null)
-                        existingUser.setFacebook_url(userData.getFacebook_url());
-                    if (userData.getLinkedin_url() != null)
-                        existingUser.setLinkedin_url(userData.getLinkedin_url());
+                    existingUser.setInstagram_url(userData.getInstagram_url());
+                    existingUser.setTwitter_url(userData.getTwitter_url());
+                    existingUser.setFacebook_url(userData.getFacebook_url());
+                    existingUser.setLinkedin_url(userData.getLinkedin_url());
 
                     if (userData.getRole() != null)
                         existingUser.setRole(userData.getRole());
@@ -160,13 +175,13 @@ public class UserController {
     @DeleteMapping("/{username}")
     @PreAuthorize("#username == authentication.name or hasRole('ADMIN')")
     public ResponseEntity<?> softDeleteUser(@PathVariable String username) {
-        
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String authenticatedUsername = authentication.getName();
         Long userId = userRepository.findByUsername(authenticatedUsername)
                 .map(User::getUserId)
                 .orElse(null);
-        
+
         return userRepository.findByUsername(username)
                 .map(user -> {
                     user.setIsActive(false);

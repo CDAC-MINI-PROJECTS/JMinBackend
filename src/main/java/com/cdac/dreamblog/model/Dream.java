@@ -24,10 +24,10 @@ public class Dream {
     private Integer dislikeCount;
     private Boolean isReposted;
 
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = true, updatable = false)
     private LocalDateTime createdAt;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private LocalDateTime lastUpdated;
 
     @ManyToOne

@@ -39,13 +39,13 @@ public class AuthController {
   public String register(@Valid @RequestBody UserDto userDto) {
 
     System.out.println("Registering user: " + userDto.getUsername() + " " + userDto.getEmail());
-    // User user = new User();
-    // user.setUsername(userDto.getUsername());
-    // user.setEmail(userDto.getEmail());
-    // user.setFirstName(userDto.getFirstName());
-    // user.setPassword(passwordEncoder.encode(user.getPassword()));
+    User user = new User();
+    user.setUsername(userDto.getUsername());
+    user.setEmail(userDto.getEmail());
+    user.setFirstName(userDto.getFirstName());
+    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
        
-    // userRepo.save(user);
+    userRepo.save(user);
     return "User registered";
   }
 
