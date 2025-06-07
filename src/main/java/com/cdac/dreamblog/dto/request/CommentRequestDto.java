@@ -1,4 +1,4 @@
-package com.cdac.dreamblog.dto.comment;
+package com.cdac.dreamblog.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,6 +1,8 @@
-package com.cdac.dreamblog.dto.follow;
+package com.cdac.dreamblog.dto.response;
 
 import java.time.LocalDateTime;
+
+import com.cdac.dreamblog.dto.UserMinimalDto;
 
 import lombok.Data;
 

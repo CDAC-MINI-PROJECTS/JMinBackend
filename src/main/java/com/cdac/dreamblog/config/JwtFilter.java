@@ -9,8 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.cdac.dreamblog.service.CustomUserDetailsService;
-import com.cdac.dreamblog.service.JwtUtil;
+import com.cdac.dreamblog.service.implementation.CustomUserDetailsService;
+import com.cdac.dreamblog.util.JwtUtil;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

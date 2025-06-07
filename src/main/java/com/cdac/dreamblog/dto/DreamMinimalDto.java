@@ -1,5 +1,5 @@
 // src/main/java/com/cdac/dreamblog/dto/DreamMinimalDto.java
-package com.cdac.dreamblog.dto.dream;
+package com.cdac.dreamblog.dto;
 
 import lombok.Data;
 

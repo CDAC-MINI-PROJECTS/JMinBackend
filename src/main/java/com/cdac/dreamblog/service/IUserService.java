@@ -1,5 +1,6 @@
 package com.cdac.dreamblog.service;
 
-public class DreamService {
+public interface IUserService {
+
     
-}
+} 

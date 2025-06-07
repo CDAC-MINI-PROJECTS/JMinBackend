@@ -1,4 +1,4 @@
-package com.cdac.dreamblog.service;
+package com.cdac.dreamblog.service.implementation;
 
 import java.util.List;
 

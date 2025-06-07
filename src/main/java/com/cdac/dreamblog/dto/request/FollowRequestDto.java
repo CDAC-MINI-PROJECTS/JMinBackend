@@ -1,4 +1,4 @@
-package com.cdac.dreamblog.dto.follow;
+package com.cdac.dreamblog.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

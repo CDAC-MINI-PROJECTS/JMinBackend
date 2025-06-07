@@ -1,4 +1,3 @@
-// src/main/java/com/cdac/dreamblog/repository/FollowRepository.java
 package com.cdac.dreamblog.repository;
 
 import com.cdac.dreamblog.model.Follow;

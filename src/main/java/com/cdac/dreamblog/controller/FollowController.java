@@ -1,12 +1,12 @@
 // src/main/java/com/cdac/dreamblog/controller/FollowController.java
 package com.cdac.dreamblog.controller;
 
-import com.cdac.dreamblog.dto.follow.FollowRequestDto;
-import com.cdac.dreamblog.dto.follow.FollowResponseDto; // Still useful for consistent output
-import com.cdac.dreamblog.dto.follow.FollowerResponseDto;
-import com.cdac.dreamblog.dto.follow.FollowingResponseDto;
-import com.cdac.dreamblog.dto.follow.UserMinimalDto;
-import com.cdac.dreamblog.dto.UserDto; // Still useful for consistent output
+import com.cdac.dreamblog.dto.UserDto;
+import com.cdac.dreamblog.dto.UserMinimalDto;
+import com.cdac.dreamblog.dto.request.FollowRequestDto;
+import com.cdac.dreamblog.dto.response.FollowResponseDto;
+import com.cdac.dreamblog.dto.response.FollowerResponseDto;
+import com.cdac.dreamblog.dto.response.FollowingResponseDto;
 import com.cdac.dreamblog.model.Follow;
 import com.cdac.dreamblog.model.User;
 import com.cdac.dreamblog.repository.FollowRepository;

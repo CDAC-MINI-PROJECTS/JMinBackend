@@ -1,10 +1,10 @@
 // src/main/java/com/cdac/dreamblog/controller/CommentController.java
 package com.cdac.dreamblog.controller;
 
-import com.cdac.dreamblog.dto.comment.CommentRequestDto;
-import com.cdac.dreamblog.dto.comment.CommentResponseDto;
-import com.cdac.dreamblog.dto.dream.DreamMinimalDto;
-import com.cdac.dreamblog.dto.follow.UserMinimalDto;
+import com.cdac.dreamblog.dto.DreamMinimalDto;
+import com.cdac.dreamblog.dto.UserMinimalDto;
+import com.cdac.dreamblog.dto.request.CommentRequestDto;
+import com.cdac.dreamblog.dto.response.CommentResponseDto;
 import com.cdac.dreamblog.model.Comment;
 import com.cdac.dreamblog.model.Dream;
 import com.cdac.dreamblog.model.User;

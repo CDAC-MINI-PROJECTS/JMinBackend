@@ -17,7 +17,11 @@ public class Dream {
     private Long dreamId;
 
     private String title;
+    
+    @Lob
+    @Column(name = "large_text_content", columnDefinition = "TEXT")
     private String content;
+
     private String tags; // Comma-separated
     private String visibility; // "public" or "private"
     private Integer likeCount; 

@@ -1,11 +1,10 @@
-package com.cdac.dreamblog.dto.dream;
+package com.cdac.dreamblog.dto;
 
 import lombok.Data;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import com.cdac.dreamblog.dto.comment.CommentResponseDto;
-import com.cdac.dreamblog.dto.follow.UserMinimalDto;
+import com.cdac.dreamblog.dto.response.CommentResponseDto;
 
 @Data
 public class DreamWithCommentsDto {

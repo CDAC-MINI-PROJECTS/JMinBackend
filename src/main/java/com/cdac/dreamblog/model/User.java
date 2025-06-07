@@ -1,7 +1,12 @@
 package com.cdac.dreamblog.model;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import com.cdac.dreamblog.enums.*;
+
 import lombok.Data;
 
 // Note: Refer https://jakarta.ee/specifications/bean-validation/3.0/ to add validation and other models
@@ -33,7 +38,7 @@ public class User {
     //Personal Information
     private String firstName;
     private String lastName;
-    private LocalDateTime dob;
+    private LocalDate dob;
     private String profile;
     private String cover;
     private String gender;
@@ -50,22 +55,21 @@ public class User {
 
     //Contact Information
     private String phoneNumber;
-    private String secondaryEmail;
     private Boolean isEmailVerified;
 
     private String bio;
     private String language; // URL to the user's profile picture
     
     // Account details
-    private String role; // "user" or "admin"
+    private Role role;
     private Boolean isActive;
     private LocalDateTime lastLogin;
 
     // Social media URLs
-    private String instagram_url;
-    private String twitter_url;
-    private String facebook_url;
-    private String linkedin_url;
+    private String instagramURL;
+    private String twitterURL;
+    private String facebookURL;
+    private String linkedinURL;
 
     // Timestamps for auditing
     private LocalDateTime createdAt;
