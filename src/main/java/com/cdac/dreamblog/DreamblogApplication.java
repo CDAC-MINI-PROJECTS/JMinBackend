@@ -12,3 +12,4 @@ public class DreamblogApplication {
 	}
 
 }
+//entry point SpringApplication.run

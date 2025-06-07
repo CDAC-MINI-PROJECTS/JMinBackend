@@ -37,7 +37,6 @@ public class AuthController {
 
   @PostMapping("/register")
   public String register(@Valid @RequestBody UserDto userDto) {
-
     System.out.println("Registering user: " + userDto.getUsername() + " " + userDto.getEmail());
     User user = new User();
     user.setUsername(userDto.getUsername());

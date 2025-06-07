@@ -206,3 +206,10 @@ public class UserController {
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found"));
     }
 }
+
+
+// Rest
+
+// localhost:8080/api/users
+
+// Requesr Accpet / Response 
