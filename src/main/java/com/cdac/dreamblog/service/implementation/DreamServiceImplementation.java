@@ -34,18 +34,18 @@ public class DreamServiceImplementation {
     @Autowired
     private UserRepository userRepository;
 
-    // @Autowired
-    // private CommentRepository commentRepository;
+    @Autowired
+    private CommentRepository commentRepository;
 
-    // private UserMinimalDto toUserMinimalDto(User user) {
-    //     if (user == null)
-    //         return null;
-    //     UserMinimalDto dto = new UserMinimalDto();
-    //     dto.setUserId(user.getUserId());
-    //     dto.setUsername(user.getUsername());
-    //     dto.setFirstName(user.getFirstName());
-    //     return dto;
-    // }
+    private UserMinimalDto toUserMinimalDto(User user) {
+        if (user == null)
+            return null;
+        UserMinimalDto dto = new UserMinimalDto();
+        dto.setUserId(user.getUserId());
+        dto.setUsername(user.getUsername());
+        dto.setFirstName(user.getFirstName());
+        return dto;
+    }
 
     // Add this method to convert User to UserResponseDto
     private UserResponseDto toUserResponseDto(User user) {
@@ -59,20 +59,20 @@ public class DreamServiceImplementation {
         return dto;
     }
 
-    // private CommentResponseDto toCommentResponseDto(Comment comment) {
-    //     if (comment == null)
-    //         return null;
-    //     CommentResponseDto dto = new CommentResponseDto();
-    //     dto.setCommentId(comment.getCommentId());
-    //     dto.setCommentText(comment.getCommentText());
-    //     dto.setCreatedAt(comment.getCreatedAt());
-    //     dto.setVisibility(comment.getVisibility());
-    //     // For nested objects, ensure no circular references.
-    //     // If CommentResponseDto has a Dream, set it to null here to break cycle.
-    //     dto.setDream(null); // Explicitly setting to null to avoid circular references
-    //     dto.setUser(toUserMinimalDto(comment.getUser()));
-    //     return dto;
-    // }
+    private CommentResponseDto toCommentResponseDto(Comment comment) {
+        if (comment == null)
+            return null;
+        CommentResponseDto dto = new CommentResponseDto();
+        dto.setCommentId(comment.getCommentId());
+        dto.setCommentText(comment.getCommentText());
+        dto.setCreatedAt(comment.getCreatedAt());
+        dto.setVisibility(comment.getVisibility());
+        // For nested objects, ensure no circular references.
+        // If CommentResponseDto has a Dream, set it to null here to break cycle.
+        dto.setDream(null); // Explicitly setting to null to avoid circular
+        dto.setUser(toUserMinimalDto(comment.getUser()));
+        return dto;
+    }
 
     private DreamWithCommentsDto toDreamWithCommentsDto(Dream dream) {
         if (dream == null)
@@ -80,6 +80,11 @@ public class DreamServiceImplementation {
         DreamWithCommentsDto dto = new DreamWithCommentsDto();
         dto.setDreamId(dream.getDreamId());
         dto.setContent(dream.getContent());
+        dto.setUser(toUserMinimalDto(dream.getUser()));
+        List<Comment> comments = commentRepository.findByDreamOrderByCreatedAtAsc(dream);
+        dto.setComments(comments.stream()
+                .map(this::toCommentResponseDto)
+                .collect(Collectors.toList()));
         return dto;
     }
 
@@ -139,20 +144,19 @@ public class DreamServiceImplementation {
         // Or, if you prefer to find directly by user's ID (assuming DreamEntity has a
         // direct userId column or a custom method):
         // List<DreamEntity> dreams = dreamRepository.findByUserId(userId); // Requires
-        // this method in DreamRepository
-
+        // this method in DreamRepositor
         return dreamDtos;
     }
 
     public DreamResponseDto updateDream(Long id, DreamRequestDto dreamRequestDto) {
-           Dream dream = dreamRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found"));
-    
-           dream.setContent(dreamRequestDto.getContent());
-           dream.setTitle(dreamRequestDto.getTitle());
-        //    dream.getTags(dreamRequestDto.getTags());
-           dream.setLastUpdated(LocalDateTime.now());
+        Dream dream = dreamRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-           return toDreamResponseDto(dream);
+        dream.setContent(dreamRequestDto.getContent());
+        dream.setTitle(dreamRequestDto.getTitle());
+        // dream.getTags(dreamRequestDto.getTags());
+        dream.setLastUpdated(LocalDateTime.now());
+
+        return toDreamResponseDto(dream);
 
     }
 
@@ -161,8 +165,8 @@ public class DreamServiceImplementation {
         if (dreamOptional.isPresent()) {
             dreamRepository.deleteById(id);
             return true;
-        }else{
-           return false;
+        } else {
+            return false;
         }
     }
 }
