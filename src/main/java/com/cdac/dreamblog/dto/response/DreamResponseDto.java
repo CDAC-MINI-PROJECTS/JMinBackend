@@ -1,10 +1,12 @@
-package com.cdac.dreamblog.dto.request;
+package com.cdac.dreamblog.dto.response;
 
 import java.time.LocalDateTime;
 
+
 import lombok.Data;
+
 @Data
-public class DreamRequestDto {
+public class DreamResponseDto {
     private Long dreamId;
     private String title;
     private String content;
@@ -15,5 +17,13 @@ public class DreamRequestDto {
     private Boolean isReposted;
     private LocalDateTime createdAt;
     private LocalDateTime lastUpdated;
-    private Long userId;
+    private UserResponseDto user;
+
+    public UserResponseDto getUser(){
+        return this.user;
+    }
+
+    public void setUser(UserResponseDto user){
+        this.user = user;
+    }
 }

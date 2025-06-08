@@ -61,7 +61,7 @@ public class User {
     private String language; // URL to the user's profile picture
     
     // Account details
-    private Role role;
+    private String role;
     private Boolean isActive;
     private LocalDateTime lastLogin;
 

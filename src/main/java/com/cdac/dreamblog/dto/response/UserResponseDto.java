@@ -47,7 +47,7 @@ public class UserResponseDto {
     private String bloodGroup;
 
     // Address Information
-    
+
     private String country;
     private String state;
     private String city;
@@ -57,43 +57,29 @@ public class UserResponseDto {
     private String zipCode;
 
     //Contact Information
-    @Pattern(regexp = "^\\+?[0-9]{10,15}$", message = "Phone number must be between 10 and 15 digits")
     private String phoneNumber;
 
-    @Email(message = "Secondary email should be valid")
-    @Size(max = 100, message = "Secondary email must be less than 100 characters")
     private String secondaryEmail;
 
     private Boolean isEmailVerified;
 
-    @Size(max = 500, message = "Bio must be less than 500 characters")
     private String bio;
 
     private String language; // URL to the user's profile picture
     
-    private Role role; 
+    private String role; 
 
-    @NotNull(message = "Active status is mandatory")
     private Boolean isActive;
 
-    @PastOrPresent(message = "Last login date must be in the past or present")
     private LocalDateTime lastLogin;
 
     // Social media URLs
-    @Size(max = 255, message = "Instagram URL must be less than 255 characters")
-    @Pattern(regexp = "^(https?://)?(www\\.)?instagram\\.com/[a-zA-Z0-9._%+-]+/?$", message = "Invalid Instagram URL")
     private String instagramURL;
 
-    @Size(max = 255, message = "Twitter URL must be less than 255 characters")
-    @Pattern(regexp = "^(https?://)?(www\\.)?twitter\\.com/[a-zA-Z0-9._%+-]+/?$", message = "Invalid Twitter URL")
     private String twitterURL;
     
-    @Size(max = 255, message = "Facebook URL must be less than 255 characters")
-    @Pattern(regexp = "^(https?://)?(www\\.)?facebook\\.com/[a-zA-Z0-9._%+-]+/?$", message = "Invalid Facebook URL")
     private String facebookURL;
 
-    @Size(max = 255, message = "LinkedIn URL must be less than 255 characters")
-    @Pattern(regexp = "^(https?://)?(www\\.)?linkedin\\.com/in/[a-zA-Z0-9._%+-]+/?$", message = "Invalid LinkedIn URL")
     private String linkedinURL;
 
     // Timestamps for auditing

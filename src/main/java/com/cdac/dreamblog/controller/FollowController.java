@@ -1,7 +1,6 @@
 // src/main/java/com/cdac/dreamblog/controller/FollowController.java
 package com.cdac.dreamblog.controller;
 
-import com.cdac.dreamblog.dto.UserDto;
 import com.cdac.dreamblog.dto.UserMinimalDto;
 import com.cdac.dreamblog.dto.request.FollowRequestDto;
 import com.cdac.dreamblog.dto.response.FollowResponseDto;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional; // Apply transa
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.Optional; // Added for findById
 
 @RestController
 @RequestMapping("/api/follows")

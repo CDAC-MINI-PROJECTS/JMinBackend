@@ -72,9 +72,8 @@ public class UserRequestDto {
 
     private String language; // URL to the user's profile picture
     
-    private Role role; 
+    private String role; 
 
-    @NotNull(message = "Active status is mandatory")
     private Boolean isActive;
 
     @PastOrPresent(message = "Last login date must be in the past or present")
