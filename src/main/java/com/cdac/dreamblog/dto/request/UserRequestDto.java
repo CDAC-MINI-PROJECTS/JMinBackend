@@ -3,11 +3,9 @@ package com.cdac.dreamblog.dto.request;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import javax.management.relation.Role;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.Pattern;
@@ -80,21 +78,15 @@ public class UserRequestDto {
     private LocalDateTime lastLogin;
 
     // Social media URLs
-    @Size(max = 255, message = "Instagram URL must be less than 255 characters")
-    @Pattern(regexp = "^(https?://)?(www\\.)?instagram\\.com/[a-zA-Z0-9._%+-]+/?$", message = "Invalid Instagram URL")
     private String instagramURL;
 
-    @Size(max = 255, message = "Twitter URL must be less than 255 characters")
-    @Pattern(regexp = "^(https?://)?(www\\.)?twitter\\.com/[a-zA-Z0-9._%+-]+/?$", message = "Invalid Twitter URL")
     private String twitterURL;
     
-    @Size(max = 255, message = "Facebook URL must be less than 255 characters")
-    @Pattern(regexp = "^(https?://)?(www\\.)?facebook\\.com/[a-zA-Z0-9._%+-]+/?$", message = "Invalid Facebook URL")
     private String facebookURL;
 
-    @Size(max = 255, message = "LinkedIn URL must be less than 255 characters")
-    @Pattern(regexp = "^(https?://)?(www\\.)?linkedin\\.com/in/[a-zA-Z0-9._%+-]+/?$", message = "Invalid LinkedIn URL")
     private String linkedinURL;
+
+    private String secretKey;
 
     // Timestamps for auditing
     private LocalDateTime createdAt;

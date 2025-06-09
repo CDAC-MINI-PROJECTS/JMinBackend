@@ -32,6 +32,7 @@ public class AuthController {
       return new ResponseEntity<>(createdUser, HttpStatus.CREATED); // 201 Created
     } catch (IllegalArgumentException e) {
       // Catches validation errors or unique constraint violations from the service
+      
       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()); // 400 Bad Request
     } catch (Exception e) {
       // Catch-all for any other unexpected errors

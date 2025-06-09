@@ -43,6 +43,7 @@ public class UserServiceImplementation implements IUserService {
     JwtUtil jwtUtil;
 
     public UserResponseDto toUserResponseDto(User user) {
+        System.out.println(user);
         UserResponseDto userDto = new UserResponseDto();
         userDto.setUserId(user.getUserId());
         userDto.setUsername(user.getUsername());
@@ -50,6 +51,8 @@ public class UserServiceImplementation implements IUserService {
         userDto.setLastName(user.getLastName());
         userDto.setCreatedAt(user.getCreatedAt());
         userDto.setEmail(user.getEmail());
+        userDto.setProfile(user.getProfile());
+        userDto.setCover(user.getCover());
         userDto.setCountry(user.getCountry());
         userDto.setState(user.getState());
         userDto.setCity(user.getCity());
@@ -61,6 +64,7 @@ public class UserServiceImplementation implements IUserService {
         userDto.setMaritalStatus(user.getMaritalStatus());
         userDto.setGender(user.getGender());
         userDto.setAddressLine1(user.getAddressLine1());
+        userDto.setRole(user.getRole());
         return userDto;
     }
 
@@ -72,6 +76,17 @@ public class UserServiceImplementation implements IUserService {
 
         if (userRepository.existsByEmail(userDto.getEmail())) {
             throw new IllegalArgumentException("Email already exists: " + userDto.getEmail());
+        }
+
+        String SECRET_KEY = "TeamCdac";
+
+        System.out.println("###################################################");
+
+        System.out.println(userDto.getRole() + " " + userDto.getSecretKey());
+        System.out.println("###################################################");
+
+        if (userDto.getRole().equals("ROLE_ADMIN") && !userDto.getSecretKey().equals(SECRET_KEY)) {
+            throw new IllegalArgumentException("Secret key is invalid, please insert valid key to signup as a admin");
         }
 
         User user = new User();
@@ -123,49 +138,49 @@ public class UserServiceImplementation implements IUserService {
         User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
 
-        if (userDto.getUsername() != null && !userDto.getUsername().equals(existingUser.getUsername())) {
-            if (userRepository.existsByUsername(userDto.getUsername())) {
+        if (existingUser.getUsername() != null && !existingUser.getUsername().equals(existingUser.getUsername())) {
+            if (userRepository.existsByUsername(existingUser.getUsername())) {
                 throw new IllegalArgumentException("Username already taken: " + userDto.getUsername());
             }
             existingUser.setUsername(userDto.getUsername());
         }
 
-        if (userDto.getEmail() != null && !userDto.getEmail().equals(existingUser.getEmail())) {
-            if (userRepository.existsByEmail(userDto.getEmail())) {
+        if (existingUser.getEmail() != null && !existingUser.getEmail().equals(existingUser.getEmail())) {
+            if (userRepository.existsByEmail(existingUser.getEmail())) {
                 throw new IllegalArgumentException("Email already taken: " + userDto.getEmail());
             }
             existingUser.setEmail(userDto.getEmail());
         }
 
-        if (userDto.getDob() != null)
+        if (existingUser.getDob() != null)
             existingUser.setDob(userDto.getDob());
-        if (userDto.getFirstName() != null)
+        if (existingUser.getFirstName() != null)
             existingUser.setFirstName(userDto.getFirstName());
-        if (userDto.getLastName() != null)
+        if (existingUser.getLastName() != null)
             existingUser.setLastName(userDto.getLastName());
-        if (userDto.getProfile() != null)
-            existingUser.setProfile(userDto.getProfile());
-        if (userDto.getCover() != null)
+        if (existingUser.getProfile() != null)
+            existingUser.setProfile(existingUser.getProfile());
+        if (existingUser.getCover() != null)
             existingUser.setCover(userDto.getCover());
-        if (userDto.getBio() != null)
+        if (existingUser.getBio() != null)
             existingUser.setBio(userDto.getBio());
 
-        if (userDto.getCountry() != null)
+        if (existingUser.getCountry() != null)
             existingUser.setCountry(userDto.getCountry());
-        if (userDto.getCity() != null)
+        if (existingUser.getCity() != null)
             existingUser.setCity(userDto.getCity());
-        if (userDto.getState() != null)
+        if (existingUser.getState() != null)
             existingUser.setState(userDto.getState());
-        if (userDto.getZipCode() != null)
+        if (existingUser.getZipCode() != null)
             existingUser.setZipCode(userDto.getZipCode());
 
-        if (userDto.getInstagramURL() != null)
+        if (existingUser.getInstagramURL() != null)
             existingUser.setInstagramURL(userDto.getInstagramURL());
-        if (userDto.getTwitterURL() != null)
+        if (existingUser.getTwitterURL() != null)
             existingUser.setTwitterURL(userDto.getTwitterURL());
-        if (userDto.getFacebookURL() != null)
+        if (existingUser.getFacebookURL() != null)
             existingUser.setFacebookURL(userDto.getFacebookURL());
-        if (userDto.getLinkedinURL() != null)
+        if (existingUser.getLinkedinURL() != null)
             existingUser.setLinkedinURL(userDto.getLinkedinURL());
 
         // if (userDto.getIsActive() != null)
@@ -205,6 +220,7 @@ public class UserServiceImplementation implements IUserService {
     public UserResponseDto getUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with username: " + username));
+        System.out.println("user data" + user);
         return toUserResponseDto(user);
     }
 

@@ -10,7 +10,7 @@ public class DreamRequestDto {
     private String content;
     private String tags; 
     private String visibility;
-    private Integer likeCount; 
+    private Integer likes; 
     private Integer dislikeCount;
     private Boolean isReposted;
     private LocalDateTime createdAt;

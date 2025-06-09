@@ -3,6 +3,9 @@ package com.cdac.dreamblog.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.cdac.dreamblog.dto.DreamWithCommentsDto;
 import com.cdac.dreamblog.dto.request.DreamRequestDto;
+import com.cdac.dreamblog.dto.request.ReactionRequestDto;
 import com.cdac.dreamblog.dto.response.DreamResponseDto;
 import com.cdac.dreamblog.service.implementation.DreamServiceImplementation;
 
@@ -41,7 +45,8 @@ public class DreamController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllDreams() {
+    public ResponseEntity<?> getAllDreams(  
+      ) {
         try {
             return ResponseEntity.ok(dreamService.getAllDreams());
         } catch (Exception e) {
@@ -83,6 +88,18 @@ public class DreamController {
         }
     }
 
+    @PutMapping("/{id}/reaction")
+    public ResponseEntity<?> likeDream(@PathVariable Long id, @RequestBody ReactionRequestDto reactionDto) {
+        try {
+            DreamResponseDto dreamResponseDto = dreamService.reactToDream(id, reactionDto.getUserId(), reactionDto.getReactionType());
+            return ResponseEntity.ok(dreamResponseDto);
+        } catch (Exception e) {
+
+            System.out.println("Error creating dream: " + e.getMessage());
+            System.out.println("Stack trace: " + e.getStackTrace());
+            return ResponseEntity.status(500).body("Error creating dream: " + e.getMessage());
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteDream(@PathVariable Long id) {

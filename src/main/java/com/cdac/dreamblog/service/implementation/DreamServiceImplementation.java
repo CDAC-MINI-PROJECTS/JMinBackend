@@ -25,6 +25,8 @@ import com.cdac.dreamblog.repository.CommentRepository;
 import com.cdac.dreamblog.repository.DreamRepository;
 import com.cdac.dreamblog.repository.UserRepository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class DreamServiceImplementation {
 
@@ -80,6 +82,11 @@ public class DreamServiceImplementation {
         DreamWithCommentsDto dto = new DreamWithCommentsDto();
         dto.setDreamId(dream.getDreamId());
         dto.setContent(dream.getContent());
+        dto.setReactions(dream.getReactions());
+        dto.setCreatedAt(dream.getCreatedAt());
+        dto.setVisibility(dream.getVisibility());
+        dto.setTitle(dream.getTitle());
+
         dto.setUser(toUserMinimalDto(dream.getUser()));
         List<Comment> comments = commentRepository.findByDreamOrderByCreatedAtAsc(dream);
         dto.setComments(comments.stream()
@@ -94,6 +101,8 @@ public class DreamServiceImplementation {
         dreamResponseDto.setContent(dream.getContent());
         dreamResponseDto.setCreatedAt(dream.getCreatedAt());
         dreamResponseDto.setVisibility(dream.getVisibility());
+        dreamResponseDto.setTitle(dream.getTitle());
+
         dreamResponseDto.setUser(toUserResponseDto(dream.getUser()));
         return dreamResponseDto;
     }
@@ -112,11 +121,14 @@ public class DreamServiceImplementation {
         return toDreamResponseDto(dream);
     }
 
-    public List<DreamResponseDto> getAllDreams() {
+    public List<DreamWithCommentsDto> getAllDreams() {
         List<Dream> dream = dreamRepository.findAll();
-        List<DreamResponseDto> dreamResponseDtos = dream.stream().map(this::toDreamResponseDto)
+
+        List<DreamWithCommentsDto> dreamDtos = dream.stream()
+                .map(this::toDreamWithCommentsDto)
                 .collect(Collectors.toList());
-        return dreamResponseDtos;
+
+        return dreamDtos;
     }
 
     public DreamResponseDto getDreamById(Long id) {
@@ -158,6 +170,30 @@ public class DreamServiceImplementation {
 
         return toDreamResponseDto(dream);
 
+    }
+
+    public DreamResponseDto reactToDream(Long dreamId, Long userId, String reactionType) {
+        Dream dream = dreamRepository.findById(dreamId)
+                .orElseThrow(() -> new EntityNotFoundException("Dream not found"));
+        dream.addOrUpdateReaction(userId, reactionType);
+        DreamResponseDto dto = toDreamResponseDto(dreamRepository.save(dream));
+        return dto;
+    }
+
+    public Dream removeDreamReaction(Long dreamId, Long userId) {
+        Dream dream = dreamRepository.findById(dreamId)
+                .orElseThrow(() -> new EntityNotFoundException("Dream not found"));
+        dream.removeReaction(userId);
+        return dreamRepository.save(dream);
+    }
+
+    public Long getReactionCount(Long id) {
+        Dream dream = dreamRepository.findById(id).orElse(null);
+        Long likeCount = dream.getReactionCount("like");
+        Long cryCount = dream.getReactionCount("cry");
+        System.out.println(
+                "Dream '" + dream.getTitle() + "' has " + likeCount + " likes and " + cryCount + " cries.");
+        return likeCount;
     }
 
     public boolean deleteDream(Long id) {
